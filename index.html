@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solarízate: La Solución Financiera para tu Transición Energética</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .calculator-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+        }
+        .result-card {
+            background-color: #3E4A61;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            text-align: center;
+        }
+        .result-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            line-height: 1;
+            color: #F9A825;
+        }
+        .result-label {
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            color: #d1d5db;
+        }
+        .form-label {
+            font-weight: 700;
+            color: #374151;
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #00A676;
+            box-shadow: 0 0 0 3px rgba(0, 166, 118, 0.2);
+        }
+        .calculate-btn {
+            background-color: #00A676;
+            color: white;
+            font-weight: 700;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+        .calculate-btn:hover {
+            background-color: #008a63;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-[#3E4A61]">Crédito Verde <span class="text-[#00A676]">Solarízate</span></h1>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-6 md:p-8">
+        <section class="text-center mb-10">
+            <h2 class="text-4xl md:text-5xl font-black text-[#3E4A61] mb-4">Calcula tu Ahorro y Retorno de Inversión</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">Ingresa los datos de tu consumo actual y el costo de tu proyecto solar para descubrir cuánto podrías ahorrar y en cuánto tiempo recuperarás tu inversión.</p>
+        </section>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Calculator Inputs -->
+            <div class="lg:col-span-1 calculator-card">
+                <h3 class="text-xl font-bold text-[#3E4A61] mb-6">Parámetros de Cálculo</h3>
+                <div class="space-y-6">
+                    <div>
+                        <label for="inversionInicial" class="form-label">Inversión Inicial (USD)</label>
+                        <input type="number" id="inversionInicial" class="form-input" value="5000">
+                    </div>
+                    <div>
+                        <label for="costoKwh" class="form-label">Costo Actual por kWh (USD)</label>
+                        <input type="number" id="costoKwh" class="form-input" step="0.01" value="0.10">
+                    </div>
+                    <div>
+                        <label for="consumoMensual" class="form-label">Consumo Mensual (kWh)</label>
+                        <input type="number" id="consumoMensual" class="form-input" value="400">
+                    </div>
+                    <div>
+                        <label for="porcentajeReemplazo" class="form-label">Porcentaje de Reemplazo con Energía Solar (%)</label>
+                        <input type="range" id="porcentajeReemplazo" min="10" max="100" value="80" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#00A676]">
+                        <div class="text-center font-bold text-[#00A676] mt-2" id="porcentajeReemplazoValor">80%</div>
+                    </div>
+                    <div>
+                        <button id="calcularBtn" class="calculate-btn">Recalcular Ahorro</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results & Chart -->
+            <div class="lg:col-span-2 calculator-card">
+                <h3 class="text-xl font-bold text-[#3E4A61] mb-6">Resultados Proyectados</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="result-card">
+                        <div id="ahorroMensual" class="result-number">$32.00</div>
+                        <div class="result-label">Ahorro Mensual Estimado</div>
+                    </div>
+                    <div class="result-card">
+                        <div id="ahorroAnual" class="result-number">$384.00</div>
+                        <div class="result-label">Ahorro Anual Estimado</div>
+                    </div>
+                    <div class="result-card">
+                        <div id="roiAnnos" class="result-number">13.0</div>
+                        <div class="result-label">Retorno de Inversión (Años)</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="ahorroChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-[#3E4A61] text-white mt-12">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <h2 class="text-3xl font-bold mb-4">¿Listo para hacer el cambio?</h2>
+            <p class="mb-6 max-w-2xl mx-auto">Nuestros asesores están listos para ayudarte a estructurar el Crédito Verde Solarízate a tu medida. ¡Contáctanos!</p>
+            <button class="bg-[#F9A825] text-[#3E4A61] font-bold py-3 px-8 rounded-lg hover:bg-yellow-400 transition-colors">Solicitar Crédito</button>
+        </div>
+    </footer>
+
+    <script>
+        const inversionInicialEl = document.getElementById('inversionInicial');
+        const costoKwhEl = document.getElementById('costoKwh');
+        const consumoMensualEl = document.getElementById('consumoMensual');
+        const porcentajeReemplazoEl = document.getElementById('porcentajeReemplazo');
+        const porcentajeReemplazoValorEl = document.getElementById('porcentajeReemplazoValor');
+        const calcularBtn = document.getElementById('calcularBtn');
+
+        const ahorroMensualEl = document.getElementById('ahorroMensual');
+        const ahorroAnualEl = document.getElementById('ahorroAnual');
+        const roiAnnosEl = document.getElementById('roiAnnos');
+
+        let ahorroChart;
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
+        }
+
+        function calcularROI() {
+            const inversion = parseFloat(inversionInicialEl.value) || 0;
+            const costo = parseFloat(costoKwhEl.value) || 0;
+            const consumo = parseFloat(consumoMensualEl.value) || 0;
+            const reemplazo = parseFloat(porcentajeReemplazoEl.value) / 100 || 0;
+
+            const kwhReemplazados = consumo * reemplazo;
+            const ahorroMensual = kwhReemplazados * costo;
+            const ahorroAnual = ahorroMensual * 12;
+            const roiAnnos = inversion > 0 && ahorroAnual > 0 ? (inversion / ahorroAnual) : 0;
+
+            ahorroMensualEl.textContent = formatCurrency(ahorroMensual);
+            ahorroAnualEl.textContent = formatCurrency(ahorroAnual);
+            roiAnnosEl.textContent = roiAnnos > 0 ? roiAnnos.toFixed(1) : 'N/A';
+            
+            updateChart(ahorroAnual, inversion);
+        }
+        
+        function updateChart(ahorroAnual, inversion) {
+            const labels = [];
+            const data = [];
+            const maxYears = 25;
+            let cumulativeSavings = 0;
+
+            for (let i = 1; i <= maxYears; i++) {
+                labels.push(`Año ${i}`);
+                cumulativeSavings += ahorroAnual;
+                data.push(cumulativeSavings);
+            }
+
+            if (ahorroChart) {
+                ahorroChart.destroy();
+            }
+
+            const ctx = document.getElementById('ahorroChart').getContext('2d');
+            ahorroChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Ahorro Acumulado (USD)',
+                        data: data,
+                        borderColor: '#00A676',
+                        backgroundColor: 'rgba(0, 166, 118, 0.1)',
+                        fill: true,
+                        tension: 0.3
+                    }, {
+                        label: 'Inversión Inicial (USD)',
+                        data: Array(maxYears).fill(inversion),
+                        borderColor: '#F9A825',
+                        borderDash: [5, 5],
+                        fill: false,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return formatCurrency(value);
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += formatCurrency(context.parsed.y);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        porcentajeReemplazoEl.addEventListener('input', (e) => {
+            porcentajeReemplazoValorEl.textContent = `${e.target.value}%`;
+        });
+        
+        calcularBtn.addEventListener('click', calcularROI);
+        
+        // Initial calculation on page load
+        document.addEventListener('DOMContentLoaded', calcularROI);
+
+    </script>
+</body>
+</html>
