@@ -28,21 +28,23 @@ warnings.filterwarnings('ignore')
 
 # Lista de 15 tickers diversificados del S&P 500
 TICKERS = [
-    'AAPL',  # Tecnología - Apple
+   'AAPL',  # Tecnología - Apple
     'MSFT',  # Tecnología - Microsoft
+    'NVDA',  # Tecnología - Nvidia
+    'AMZN',  # Tecnología - Amazon
+    'ACN',   # Tecnología - Accenture
+    'CSCO',  # Tecnología - Cisco
+    'INTU',  # Tecnología - Intuit
+
+    # Sector Industrial / Manufactura
     'CAT',   # Industria - Caterpillar
     'DE',    # Industria - Deere & Company
     'HON',   # Industria - Honeywell
-    'JNJ',   # Salud - Johnson & Johnson
-    'PFE',   # Salud - Pfizer
-    'PG',    # Consumo Básico - Procter & Gamble
-    'KO',    # Consumo Básico - Coca-Cola
-    'JPM',   # Finanzas - JPMorgan Chase
-    'V',     # Finanzas - Visa
-    'XOM',   # Energía - ExxonMobil
-    'CVX',   # Energía - Chevron
-    'NEE',   # Servicios Públicos - NextEra Energy
-    'DUK',   # Servicios Públicos - Duke Energy
+    'GE',    # Industria - General Electric
+    'F',     # Industria - Ford Motor
+    'MMM',   # Industria - 3M Company
+    'UNP',   # Industria - Union Pacific
+    'UPS'    # Industria - United Parcel Service
 ]
 
 print("=" * 65)
