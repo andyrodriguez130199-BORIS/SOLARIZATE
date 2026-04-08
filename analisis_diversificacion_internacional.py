@@ -131,6 +131,20 @@ for nombre_mercado, tickers in MARKETS.items():
     datos = yf.download(tickers, period="10y", auto_adjust=False, progress=False)
     precios = datos["Adj Close"]
 
+    # Excluir tickers sin datos (p. ej. delisted o no disponibles en Yahoo)
+    tickers_invalidos = precios.columns[precios.isna().all()].tolist()
+    if tickers_invalidos:
+        print(
+            f"         Aviso: se excluyen {len(tickers_invalidos)} ticker(s) sin datos: "
+            f"{', '.join(tickers_invalidos)}"
+        )
+        precios = precios.drop(columns=tickers_invalidos)
+    if precios.shape[1] < 2:
+        raise RuntimeError(
+            f"{nombre_mercado}: datos insuficientes tras excluir tickers inválidos "
+            f"({precios.shape[1]} activo(s) válido(s))."
+        )
+
     # Relleno para alinear feriados locales y limpieza residual
     precios_limpios = precios.ffill().dropna()
     if precios_limpios.empty:
