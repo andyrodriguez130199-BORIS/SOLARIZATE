@@ -142,7 +142,7 @@ for nombre_mercado, tickers in MARKETS.items():
     if precios.shape[1] < 2:
         raise RuntimeError(
             f"{nombre_mercado}: datos insuficientes tras excluir tickers inválidos "
-            f"({precios.shape[1]} activo(s) válido(s))."
+            f"({precios.shape[1]} activo(s) válido(s)); se requieren al menos 2."
         )
 
     # Relleno para alinear feriados locales y limpieza residual
