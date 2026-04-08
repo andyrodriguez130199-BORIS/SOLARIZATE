@@ -77,6 +77,50 @@
                 height: 400px;
             }
         }
+        .portfolio-table th {
+            background-color: #3E4A61;
+            color: white;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .portfolio-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            white-space: nowrap;
+        }
+        .portfolio-table tr:last-child td {
+            border-bottom: none;
+        }
+        .portfolio-table tr:hover td {
+            background-color: #f0fdf4;
+        }
+        .badge-recommended {
+            background-color: #F9A825;
+            color: #3E4A61;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.15rem 0.5rem;
+            border-radius: 9999px;
+            margin-left: 0.4rem;
+            vertical-align: middle;
+        }
+        .select-btn {
+            background-color: #00A676;
+            color: white;
+            font-weight: 700;
+            padding: 0.4rem 1rem;
+            border-radius: 0.4rem;
+            transition: background-color 0.2s;
+            font-size: 0.875rem;
+        }
+        .select-btn:hover {
+            background-color: #008a63;
+        }
+        .selected-row td {
+            background-color: #d1fae5 !important;
+        }
     </style>
 </head>
 <body>
@@ -145,6 +189,208 @@
             </div>
 
         </div>
+
+        <!-- Portfolio Tables Section -->
+        <section class="mt-12">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl md:text-4xl font-black text-[#3E4A61] mb-3">Portafolios de Inversión Solar</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Compara nuestros paquetes disponibles y elige el que mejor se adapte a tus necesidades energéticas. Haz clic en <strong>Seleccionar</strong> para cargar los parámetros en la calculadora.</p>
+            </div>
+
+            <!-- Residential Portfolios -->
+            <div class="calculator-card mb-8">
+                <h3 class="text-xl font-bold text-[#3E4A61] mb-4">🏠 Portafolios Residenciales</h3>
+                <div class="overflow-x-auto">
+                    <table class="portfolio-table w-full border-collapse rounded-lg overflow-hidden">
+                        <thead>
+                            <tr>
+                                <th>Paquete</th>
+                                <th>Inversión (USD)</th>
+                                <th>Capacidad (kWp)</th>
+                                <th>Cobertura Solar</th>
+                                <th>Ahorro Mensual Est.</th>
+                                <th>Ahorro Anual Est.</th>
+                                <th>ROI Estimado</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="residentialTableBody">
+                            <tr data-inversion="2500" data-consumo="200" data-reemplazo="60">
+                                <td class="font-bold text-[#3E4A61]">Básico</td>
+                                <td>$2,500</td>
+                                <td>1.5 kWp</td>
+                                <td>60%</td>
+                                <td class="text-[#00A676] font-bold" id="res-ahorro-mensual-0">—</td>
+                                <td class="text-[#00A676] font-bold" id="res-ahorro-anual-0">—</td>
+                                <td class="font-bold" id="res-roi-0">—</td>
+                                <td><button class="select-btn" onclick="seleccionarPortafolio(2500, 200, 60)">Seleccionar</button></td>
+                            </tr>
+                            <tr data-inversion="4500" data-consumo="350" data-reemplazo="75">
+                                <td class="font-bold text-[#3E4A61]">Estándar <span class="badge-recommended">⭐ Popular</span></td>
+                                <td>$4,500</td>
+                                <td>3.0 kWp</td>
+                                <td>75%</td>
+                                <td class="text-[#00A676] font-bold" id="res-ahorro-mensual-1">—</td>
+                                <td class="text-[#00A676] font-bold" id="res-ahorro-anual-1">—</td>
+                                <td class="font-bold" id="res-roi-1">—</td>
+                                <td><button class="select-btn" onclick="seleccionarPortafolio(4500, 350, 75)">Seleccionar</button></td>
+                            </tr>
+                            <tr data-inversion="7500" data-consumo="500" data-reemplazo="90">
+                                <td class="font-bold text-[#3E4A61]">Premium</td>
+                                <td>$7,500</td>
+                                <td>5.0 kWp</td>
+                                <td>90%</td>
+                                <td class="text-[#00A676] font-bold" id="res-ahorro-mensual-2">—</td>
+                                <td class="text-[#00A676] font-bold" id="res-ahorro-anual-2">—</td>
+                                <td class="font-bold" id="res-roi-2">—</td>
+                                <td><button class="select-btn" onclick="seleccionarPortafolio(7500, 500, 90)">Seleccionar</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Commercial Portfolios -->
+            <div class="calculator-card mb-8">
+                <h3 class="text-xl font-bold text-[#3E4A61] mb-4">🏢 Portafolios Comerciales / Empresariales</h3>
+                <div class="overflow-x-auto">
+                    <table class="portfolio-table w-full border-collapse rounded-lg overflow-hidden">
+                        <thead>
+                            <tr>
+                                <th>Paquete</th>
+                                <th>Inversión (USD)</th>
+                                <th>Capacidad (kWp)</th>
+                                <th>Cobertura Solar</th>
+                                <th>Ahorro Mensual Est.</th>
+                                <th>Ahorro Anual Est.</th>
+                                <th>ROI Estimado</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="commercialTableBody">
+                            <tr data-inversion="12000" data-consumo="900" data-reemplazo="70">
+                                <td class="font-bold text-[#3E4A61]">Comercial Pequeño</td>
+                                <td>$12,000</td>
+                                <td>8.0 kWp</td>
+                                <td>70%</td>
+                                <td class="text-[#00A676] font-bold" id="com-ahorro-mensual-0">—</td>
+                                <td class="text-[#00A676] font-bold" id="com-ahorro-anual-0">—</td>
+                                <td class="font-bold" id="com-roi-0">—</td>
+                                <td><button class="select-btn" onclick="seleccionarPortafolio(12000, 900, 70)">Seleccionar</button></td>
+                            </tr>
+                            <tr data-inversion="25000" data-consumo="2000" data-reemplazo="80">
+                                <td class="font-bold text-[#3E4A61]">Comercial Mediano <span class="badge-recommended">⭐ Popular</span></td>
+                                <td>$25,000</td>
+                                <td>18.0 kWp</td>
+                                <td>80%</td>
+                                <td class="text-[#00A676] font-bold" id="com-ahorro-mensual-1">—</td>
+                                <td class="text-[#00A676] font-bold" id="com-ahorro-anual-1">—</td>
+                                <td class="font-bold" id="com-roi-1">—</td>
+                                <td><button class="select-btn" onclick="seleccionarPortafolio(25000, 2000, 80)">Seleccionar</button></td>
+                            </tr>
+                            <tr data-inversion="55000" data-consumo="4500" data-reemplazo="90">
+                                <td class="font-bold text-[#3E4A61]">Empresarial</td>
+                                <td>$55,000</td>
+                                <td>40.0 kWp</td>
+                                <td>90%</td>
+                                <td class="text-[#00A676] font-bold" id="com-ahorro-mensual-2">—</td>
+                                <td class="text-[#00A676] font-bold" id="com-ahorro-anual-2">—</td>
+                                <td class="font-bold" id="com-roi-2">—</td>
+                                <td><button class="select-btn" onclick="seleccionarPortafolio(55000, 4500, 90)">Seleccionar</button></td>
+                            </tr>
+                            <tr data-inversion="120000" data-consumo="10000" data-reemplazo="95">
+                                <td class="font-bold text-[#3E4A61]">Industrial</td>
+                                <td>$120,000</td>
+                                <td>90.0 kWp</td>
+                                <td>95%</td>
+                                <td class="text-[#00A676] font-bold" id="com-ahorro-mensual-3">—</td>
+                                <td class="text-[#00A676] font-bold" id="com-ahorro-anual-3">—</td>
+                                <td class="font-bold" id="com-roi-3">—</td>
+                                <td><button class="select-btn" onclick="seleccionarPortafolio(120000, 10000, 95)">Seleccionar</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-sm text-gray-500 mt-3">* Los ahorros estimados usan un costo de $0.10 USD/kWh. Ajusta el costo por kWh en la calculadora para reflejar tu tarifa real.</p>
+            </div>
+
+            <!-- Benefits Table -->
+            <div class="calculator-card">
+                <h3 class="text-xl font-bold text-[#3E4A61] mb-4">✅ Beneficios Incluidos por Portafolio</h3>
+                <div class="overflow-x-auto">
+                    <table class="portfolio-table w-full border-collapse rounded-lg overflow-hidden">
+                        <thead>
+                            <tr>
+                                <th>Beneficio</th>
+                                <th class="text-center">Básico</th>
+                                <th class="text-center">Estándar</th>
+                                <th class="text-center">Premium</th>
+                                <th class="text-center">Comercial / Empresarial</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Paneles solares de alta eficiencia</td>
+                                <td class="text-center text-[#00A676] font-bold">✓</td>
+                                <td class="text-center text-[#00A676] font-bold">✓</td>
+                                <td class="text-center text-[#00A676] font-bold">✓</td>
+                                <td class="text-center text-[#00A676] font-bold">✓</td>
+                            </tr>
+                            <tr>
+                                <td>Inversor de red</td>
+                                <td class="text-center text-[#00A676] font-bold">✓</td>
+                                <td class="text-center text-[#00A676] font-bold">✓</td>
+                                <td class="text-center text-[#00A676] font-bold">✓</td>
+                                <td class="text-center text-[#00A676] font-bold">✓</td>
+                            </tr>
+                            <tr>
+                                <td>Instalación certificada</td>
+                                <td class="text-center text-[#00A676] font-bold">✓</td>
+                                <td class="text-center text-[#00A676] font-bold">✓</td>
+                                <td class="text-center text-[#00A676] font-bold">✓</td>
+                                <td class="text-center text-[#00A676] font-bold">✓</td>
+                            </tr>
+                            <tr>
+                                <td>Garantía del sistema (años)</td>
+                                <td class="text-center">10 años</td>
+                                <td class="text-center">15 años</td>
+                                <td class="text-center">20 años</td>
+                                <td class="text-center">25 años</td>
+                            </tr>
+                            <tr>
+                                <td>Monitoreo remoto en tiempo real</td>
+                                <td class="text-center text-gray-400">—</td>
+                                <td class="text-center text-[#00A676] font-bold">✓</td>
+                                <td class="text-center text-[#00A676] font-bold">✓</td>
+                                <td class="text-center text-[#00A676] font-bold">✓</td>
+                            </tr>
+                            <tr>
+                                <td>Mantenimiento preventivo anual</td>
+                                <td class="text-center text-gray-400">—</td>
+                                <td class="text-center text-gray-400">—</td>
+                                <td class="text-center text-[#00A676] font-bold">✓</td>
+                                <td class="text-center text-[#00A676] font-bold">✓</td>
+                            </tr>
+                            <tr>
+                                <td>Sistema de almacenamiento (batería)</td>
+                                <td class="text-center text-gray-400">—</td>
+                                <td class="text-center text-gray-400">—</td>
+                                <td class="text-center text-gray-400">Opcional</td>
+                                <td class="text-center text-[#00A676] font-bold">✓</td>
+                            </tr>
+                            <tr>
+                                <td>Asesoría financiera personalizada</td>
+                                <td class="text-center text-gray-400">—</td>
+                                <td class="text-center text-gray-400">—</td>
+                                <td class="text-center text-gray-400">—</td>
+                                <td class="text-center text-[#00A676] font-bold">✓</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <footer class="bg-[#3E4A61] text-white mt-12">
@@ -267,8 +513,66 @@
         
         calcularBtn.addEventListener('click', calcularROI);
         
+        // Fill portfolio table cells with estimated values
+        const DEFAULT_COSTO_KWH = 0.10;
+
+        function calcularPortafolio(inversion, costoKwh, consumo, reemplazo) {
+            const kwhReemplazados = consumo * (reemplazo / 100);
+            const ahorroMensual = kwhReemplazados * costoKwh;
+            const ahorroAnual = ahorroMensual * 12;
+            const roi = ahorroAnual > 0 ? (inversion / ahorroAnual).toFixed(1) : 'N/A';
+            return { ahorroMensual, ahorroAnual, roi };
+        }
+
+        function poblarTablaPortafolios() {
+            const costoKwh = DEFAULT_COSTO_KWH;
+            const portfolios = [
+                // Residential
+                { inversion: 2500, consumo: 200, reemplazo: 60, ids: ['res-ahorro-mensual-0', 'res-ahorro-anual-0', 'res-roi-0'] },
+                { inversion: 4500, consumo: 350, reemplazo: 75, ids: ['res-ahorro-mensual-1', 'res-ahorro-anual-1', 'res-roi-1'] },
+                { inversion: 7500, consumo: 500, reemplazo: 90, ids: ['res-ahorro-mensual-2', 'res-ahorro-anual-2', 'res-roi-2'] },
+                // Commercial
+                { inversion: 12000, consumo: 900, reemplazo: 70, ids: ['com-ahorro-mensual-0', 'com-ahorro-anual-0', 'com-roi-0'] },
+                { inversion: 25000, consumo: 2000, reemplazo: 80, ids: ['com-ahorro-mensual-1', 'com-ahorro-anual-1', 'com-roi-1'] },
+                { inversion: 55000, consumo: 4500, reemplazo: 90, ids: ['com-ahorro-mensual-2', 'com-ahorro-anual-2', 'com-roi-2'] },
+                { inversion: 120000, consumo: 10000, reemplazo: 95, ids: ['com-ahorro-mensual-3', 'com-ahorro-anual-3', 'com-roi-3'] },
+            ];
+            portfolios.forEach(p => {
+                const { ahorroMensual, ahorroAnual, roi } = calcularPortafolio(p.inversion, costoKwh, p.consumo, p.reemplazo);
+                document.getElementById(p.ids[0]).textContent = formatCurrency(ahorroMensual);
+                document.getElementById(p.ids[1]).textContent = formatCurrency(ahorroAnual);
+                document.getElementById(p.ids[2]).textContent = roi + (roi !== 'N/A' ? ' años' : '');
+            });
+        }
+
+        function seleccionarPortafolio(inversion, consumo, reemplazo) {
+            inversionInicialEl.value = inversion;
+            costoKwhEl.value = parseFloat(costoKwhEl.value) || DEFAULT_COSTO_KWH;
+            consumoMensualEl.value = consumo;
+            porcentajeReemplazoEl.value = reemplazo;
+            porcentajeReemplazoValorEl.textContent = `${reemplazo}%`;
+            calcularROI();
+            // Scroll to calculator
+            document.querySelector('main').scrollIntoView({ behavior: 'smooth' });
+            // Highlight selected rows (single DOM query)
+            const rows = document.querySelectorAll('.portfolio-table tbody tr');
+            rows.forEach(row => {
+                row.classList.remove('selected-row');
+                if (
+                    parseInt(row.dataset.inversion) === inversion &&
+                    parseInt(row.dataset.consumo) === consumo &&
+                    parseInt(row.dataset.reemplazo) === reemplazo
+                ) {
+                    row.classList.add('selected-row');
+                }
+            });
+        }
+
         // Initial calculation on page load
-        document.addEventListener('DOMContentLoaded', calcularROI);
+        document.addEventListener('DOMContentLoaded', () => {
+            calcularROI();
+            poblarTablaPortafolios();
+        });
 
     </script>
 </body>
