@@ -140,12 +140,16 @@ idx_min_var = df_portafolios["Volatilidad"].idxmin()
 portafolio_min_var = df_portafolios.loc[idx_min_var]
 pesos_min_var = pesos_sim[idx_min_var]
 
+
+def print_metric_row(label: str, value: str) -> None:
+    print(f"  │  {label:<30} {value:>23}  │")
+
 print("\n  ┌─────────────────────────────────────────────────────────────┐")
 print("  │           PORTAFOLIO DE MÁXIMO RATIO DE SHARPE              │")
 print("  ├─────────────────────────────────────────────────────────────┤")
-print(f"  │  Rendimiento Esperado (E[R_p]):  {portafolio_max_sharpe['Rendimiento']*100:7.2f}%                  │")
-print(f"  │  Volatilidad Anualizada (σ_p):   {portafolio_max_sharpe['Volatilidad']*100:7.2f}%                  │")
-print(f"  │  Ratio de Sharpe:                {portafolio_max_sharpe['Sharpe']:7.4f}                  │")
+print_metric_row("Rendimiento Esperado (E[R_p]):", f"{portafolio_max_sharpe['Rendimiento']*100:.2f}%")
+print_metric_row("Volatilidad Anualizada (σ_p):", f"{portafolio_max_sharpe['Volatilidad']*100:.2f}%")
+print_metric_row("Ratio de Sharpe:", f"{portafolio_max_sharpe['Sharpe']:.4f}")
 print("  ├─────────────────────────────────────────────────────────────┤")
 print("  │  Pesos del portafolio:                                      │")
 for ticker, peso in zip(precios.columns, pesos_max_sharpe):
@@ -156,9 +160,9 @@ print("  └──────────────────────�
 print("\n  ┌─────────────────────────────────────────────────────────────┐")
 print("  │        PORTAFOLIO DE MÍNIMA VARIANZA GLOBAL (GMV)          │")
 print("  ├─────────────────────────────────────────────────────────────┤")
-print(f"  │  Rendimiento Esperado (E[R_p]):  {portafolio_min_var['Rendimiento']*100:7.2f}%                  │")
-print(f"  │  Volatilidad Anualizada (σ_p):   {portafolio_min_var['Volatilidad']*100:7.2f}%                  │")
-print(f"  │  Ratio de Sharpe:                {portafolio_min_var['Sharpe']:7.4f}                  │")
+print_metric_row("Rendimiento Esperado (E[R_p]):", f"{portafolio_min_var['Rendimiento']*100:.2f}%")
+print_metric_row("Volatilidad Anualizada (σ_p):", f"{portafolio_min_var['Volatilidad']*100:.2f}%")
+print_metric_row("Ratio de Sharpe:", f"{portafolio_min_var['Sharpe']:.4f}")
 print("  ├─────────────────────────────────────────────────────────────┤")
 print("  │  Pesos del portafolio:                                      │")
 for ticker, peso in zip(precios.columns, pesos_min_var):
