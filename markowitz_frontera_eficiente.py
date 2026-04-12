@@ -109,8 +109,9 @@ print("\n[3/5] Ejecutando Simulación de Monte Carlo (100,000 portafolios)...")
 
 NUM_PORTAFOLIOS = 100_000
 NUM_ACTIVOS = len(precios.columns)
-# Supuesto para Sharpe Ratio: tasa libre de riesgo anual (aprox. bono soberano de referencia).
-# Actualizar este valor según el mercado/fecha del análisis.
+# Supuesto para Sharpe Ratio: tasa libre de riesgo anual de referencia.
+# Ejemplo de referencia: bono del Tesoro de EE. UU. a 10 años (abril 2026, ~4.2%).
+# Actualizar este valor según mercado y fecha del análisis.
 TASA_LIBRE_RIESGO = 0.042
 RANDOM_SEED = 42
 MIN_PESO = 0.001
@@ -160,8 +161,8 @@ def print_metric_row(label: str, value: str) -> None:
 
 
 def print_weight_row(ticker: str, peso: float) -> None:
-    valor = f"{peso*100:.2f}%"
-    print(f"  │    {ticker:<8}: {valor:>8}                                      │")
+    percentage_str = f"{peso*100:.2f}%"
+    print(f"  │    {ticker:<8}: {percentage_str:>8}                                      │")
 
 print("\n  ┌─────────────────────────────────────────────────────────────┐")
 print("  │           PORTAFOLIO DE MÁXIMO RATIO DE SHARPE              │")
