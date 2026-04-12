@@ -35,8 +35,20 @@ print("  FRONTERA EFICIENTE DE MARKOWITZ - SIMULACIÓN DE MONTE CARLO")
 print("=" * 65)
 print(f"\n[1/5] Descargando 10 años de datos históricos para {len(TICKERS)} activos...")
 
-datos_crudos = yf.download(TICKERS, period="10y", auto_adjust=False, progress=False)
-precios = datos_crudos["Adj Close"].dropna()
+try:
+    datos_crudos = yf.download(TICKERS, period="10y", auto_adjust=False, progress=False)
+    precios = datos_crudos["Adj Close"].dropna()
+except Exception as e:
+    raise RuntimeError(
+        "No se pudieron descargar datos desde Yahoo Finance. "
+        "Verifica conexión a internet y disponibilidad de los tickers."
+    ) from e
+
+if precios.empty:
+    raise RuntimeError(
+        "La descarga no devolvió precios válidos. "
+        "Revisa los tickers o intenta nuevamente más tarde."
+    )
 
 print(f"      Datos descargados: {precios.shape[0]} días de trading, {precios.shape[1]} activos.")
 print(f"      Período: {precios.index[0].strftime('%Y-%m-%d')} → {precios.index[-1].strftime('%Y-%m-%d')}")
@@ -97,6 +109,8 @@ print("\n[3/5] Ejecutando Simulación de Monte Carlo (100,000 portafolios)...")
 
 NUM_PORTAFOLIOS = 100_000
 NUM_ACTIVOS = len(precios.columns)
+# Supuesto para Sharpe Ratio: tasa libre de riesgo anual (aprox. bono soberano de referencia).
+# Actualizar este valor según el mercado/fecha del análisis.
 TASA_LIBRE_RIESGO = 0.042
 RANDOM_SEED = 42
 MIN_PESO = 0.001
@@ -144,6 +158,11 @@ pesos_min_var = pesos_sim[idx_min_var]
 def print_metric_row(label: str, value: str) -> None:
     print(f"  │  {label:<30} {value:>23}  │")
 
+
+def print_weight_row(ticker: str, peso: float) -> None:
+    valor = f"{peso*100:.2f}%"
+    print(f"  │    {ticker:<8}: {valor:>8}                                      │")
+
 print("\n  ┌─────────────────────────────────────────────────────────────┐")
 print("  │           PORTAFOLIO DE MÁXIMO RATIO DE SHARPE              │")
 print("  ├─────────────────────────────────────────────────────────────┤")
@@ -154,7 +173,7 @@ print("  ├──────────────────────�
 print("  │  Pesos del portafolio:                                      │")
 for ticker, peso in zip(precios.columns, pesos_max_sharpe):
     if peso > MIN_PESO:
-        print(f"  │    {ticker:<8}: {peso*100:6.2f}%                                      │")
+        print_weight_row(ticker, peso)
 print("  └─────────────────────────────────────────────────────────────┘")
 
 print("\n  ┌─────────────────────────────────────────────────────────────┐")
@@ -167,7 +186,7 @@ print("  ├──────────────────────�
 print("  │  Pesos del portafolio:                                      │")
 for ticker, peso in zip(precios.columns, pesos_min_var):
     if peso > MIN_PESO:
-        print(f"  │    {ticker:<8}: {peso*100:6.2f}%                                      │")
+        print_weight_row(ticker, peso)
 print("  └─────────────────────────────────────────────────────────────┘")
 
 df_pesos_max_sharpe = pd.DataFrame(
